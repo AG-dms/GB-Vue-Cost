@@ -35,7 +35,7 @@ export default {
     return {
       paymentsList: [],
       pageNumber: 0,
-      size: 5,
+      size: 4,
     };
   },
   methods: {
