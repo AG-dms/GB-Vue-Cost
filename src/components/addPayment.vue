@@ -3,8 +3,8 @@
     <div class="form" v-if="show">
       <div class="form-input">
         <input type="text" placeholder="date" v-model="date" />
-        <input type="text" placeholder="category" v-model="category" />
-        <input type="text" placeholder="value" v-model="value" />
+        <category @changeCategoty="test" @select="chooseCategory"></category>
+        <input type="text" placeholder="value" v-model.number="value" />
       </div>
       <button class="btn primary" @click="addPayment">ADD +</button>
     </div>
@@ -13,11 +13,26 @@
 </template>
 
 <script>
-import moment from "moment";
+import category from "./category";
+
 export default {
+  components: { category: category },
+  props: {
+    payment: {
+      type: Array,
+      default: () => [],
+    },
+  },
   computed: {
     tooday() {
-      return moment().subtract(10, "days").calendar();
+      const date = new Date();
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    },
+    paymentIdx() {
+      return this.payment.length;
     },
   },
   data() {
@@ -26,16 +41,25 @@ export default {
       date: "",
       category: "",
       value: "",
+      id: "",
     };
   },
   methods: {
+    test(data) {
+      this.category = data;
+    },
+    chooseCategory(data) {
+      this.category = data;
+    },
     addPayment() {
       const { category, value } = this;
       const data = {
         date: this.tooday,
         category,
         value,
+        id: this.paymentIdx + 1,
       };
+      this.show = false;
       this.$emit("addNewPayment", data);
     },
   },
@@ -50,7 +74,8 @@ input {
 
 button:active,
 input:active,
-input:focus {
+input:focus,
+select:focus {
   outline: none;
 }
 .form-control {
@@ -62,19 +87,20 @@ input:focus {
 .form {
   display: flex;
   flex-direction: column;
+  margin-bottom: 15px;
 }
 .form button {
   align-self: center;
   margin-top: 5px;
 }
 .form-input {
-  margin: 0 auto;
   width: 300px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-.form-input input {
+.form-input input,
+select {
   padding: 5px;
   border: 1px solid grey;
   border-radius: 5px;
@@ -99,8 +125,5 @@ input:focus {
   background: rgb(45, 182, 129);
   color: white;
   border: none;
-}
-.form {
-  margin-bottom: 15px;
 }
 </style>
