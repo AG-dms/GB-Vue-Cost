@@ -1,104 +1,38 @@
 <template>
   <div id="app">
     <header><h1>My personal cost</h1></header>
-    <main>
-      <add-payment @addNewPayment="addPay"></add-payment>
-      <payment-display
-        :pageNumber="pageNumber"
-        :payment="paymentsList"
-      ></payment-display>
-      <pagination
-        @prevPage="previous"
-        @nextPage="next"
-        @chosePage="changePage"
-        :size="size"
-        :payment="paymentsList"
-        :pageNumber="pageNumber"
-      ></pagination>
-    </main>
+    <div class="menu">
+      <router-link to="/dashboard">DashBoard</router-link>
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import paymentDisplay from "./components/PaymentsDisplay";
-import "./theme.css";
-import addPayment from "./components/addPayment.vue";
-import pagination from "./components/pagination.vue";
+import { mapActions, mapGetters } from "vuex";
 export default {
   name: "App",
-  components: {
-    "payment-display": paymentDisplay,
-    "add-payment": addPayment,
-    pagination: pagination,
-  },
-  data() {
-    return {
-      paymentsList: [],
-      pageNumber: 0,
-      size: 4,
-    };
+  computed: {
+    ...mapGetters({
+      categorys: "getCategory",
+    }),
   },
   methods: {
-    previous() {
-      this.pageNumber--;
-    },
-    next() {
-      this.pageNumber++;
-    },
-    changePage(data) {
-      this.pageNumber = data - 1;
-    },
-    addPay(data) {
-      this.paymentsList.unshift(data);
-    },
-    fetchData() {
-      return [
-        {
-          date: "28/03/2020",
-          category: "Food",
-          value: 169,
-        },
-        {
-          date: "12/03/2020",
-          category: "Food",
-          value: 1500,
-        },
-        {
-          date: "10/05/2020",
-          category: "Shopping",
-          value: 500,
-        },
-        {
-          date: "05/03/2020",
-          category: "Food",
-          value: 1777,
-        },
-        {
-          date: "25/02/2020",
-          category: "Oil",
-          value: 200,
-        },
-        {
-          date: "24/03/2020",
-          category: "Transport",
-          value: 360,
-        },
-        {
-          date: "24/03/2020",
-          category: "Food",
-          value: 532,
-        },
-      ];
-    },
+    ...mapActions(["fetchData", "fetchCategory"]),
   },
   created() {
-    this.paymentsList = this.fetchData();
+    this.fetchData();
+    if (!this.categorys.length) {
+      this.fetchCategory();
+    }
   },
 };
 </script>
 
 <style>
 #app {
+  padding: 30px;
   width: 1300px;
   margin: 0 auto;
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -106,18 +40,32 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
-main {
-  display: flex;
-  padding: 30px;
-  width: 1300px;
-  margin: 0 auto;
-  flex-direction: column;
-}
-
 header {
+  width: 450px;
   display: flex;
   padding-left: 130px;
+}
+.menu {
+  display: flex;
+  padding-left: 50px;
+  margin: 15px 0;
+  width: 450px;
+  justify-content: space-between;
+}
+router-view {
+  width: 450px;
+}
+a {
+  border: none;
+  text-decoration: none;
+  color: rgb(45, 182, 129);
+  font-size: 20px;
+}
+a:visited {
+  color: rgb(45, 182, 129);
+}
+.active {
+  border-bottom: 2px solid rgb(45, 182, 129);
 }
 </style>

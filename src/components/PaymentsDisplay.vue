@@ -6,8 +6,8 @@
       <span class="payment-header-title">Category</span>
       <span class="payment-header-title">Value</span>
     </div>
-    <div class="payment-item" v-for="(item, idx) in paginatedData" :key="idx">
-      <span class="payment-item-text">{{ idx + 1 }}</span>
+    <div class="payment-item" v-for="(item, idx) in payment" :key="idx">
+      <span class="payment-item-text">{{ item.id }}</span>
       <span class="payment-item-text">{{ item.date }}</span>
       <span class="payment-item-text">{{ item.category }}</span>
       <span class="payment-item-text">{{ item.value }}</span>
@@ -22,28 +22,30 @@ export default {
       type: Array,
       default: () => [],
     },
-    size: {
-      type: Number,
-      required: false,
-      default: 5,
-    },
-    pageNumber: {
-      type: Number,
-    },
+    //Пагинация (лайт версия)
+    // size: {
+    //   type: Number,
+    //   required: false,
+    //   default: 5,
+    // },
+    // pageNumber: {
+    //   type: Number,
+    // },
   },
 
   data() {
     return {};
   },
   computed: {
-    paginatedData() {
-      const start = this.currentPage * this.size,
-        end = start + this.size;
-      return this.payment.slice(start, end);
-    },
-    currentPage() {
-      return this.pageNumber;
-    },
+    //Пагинация (лайт версия)
+    // paginatedData() {
+    //   const start = this.currentPage * this.size,
+    //     end = start + this.size;
+    //   return this.payment.slice(start, end);
+    // },
+    // currentPage() {
+    //   return this.pageNumber;
+    // },
   },
   methods: {},
 };
