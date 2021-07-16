@@ -1,20 +1,22 @@
 <template>
   <div class="form-control">
-    <div class="form" v-if="show">
+    <div class="form">
       <div class="form-input">
         <input type="text" placeholder="date" v-model="date" />
-        <category @changeCategoty="test" @select="chooseCategory"></category>
+        <category
+          :categoryAdd="getCategoryParamFromRoute"
+          @changeCategory="change"
+          @select="chooseCategory"
+        ></category>
         <input type="text" placeholder="value" v-model.number="value" />
       </div>
       <button class="btn primary" @click="addPayment">ADD +</button>
     </div>
-    <button class="btn primary" @click="show = !show">ADD NEW COST +</button>
   </div>
 </template>
 
 <script>
 import category from "./category";
-
 export default {
   components: { category: category },
   props: {
@@ -22,30 +24,45 @@ export default {
       type: Array,
       default: () => [],
     },
+    show: {
+      type: Boolean,
+    },
   },
   computed: {
     tooday() {
-      const date = new Date();
-      const day = date.getDate();
-      const month = date.getMonth() + 1;
-      const year = date.getFullYear();
-      return `${day}/${month}/${year}`;
+      if (this.date === "") {
+        const date = new Date();
+        const day = date.getDate();
+        let month = date.getMonth() + 4;
+        if (month < 10) {
+          month = "0" + month;
+        }
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+      } else {
+        return this.date;
+      }
     },
     paymentIdx() {
-      return this.payment.length;
+      return this.$store.getters.getPaymentList.length;
+    },
+    getValueQueryFromRoute() {
+      return Number(this.$route.query?.value) ?? null;
+    },
+    getCategoryParamFromRoute() {
+      return this.$route.params?.category ?? "Food";
     },
   },
   data() {
     return {
-      show: false,
       date: "",
-      category: "",
+      category: "Food",
       value: "",
       id: "",
     };
   },
   methods: {
-    test(data) {
+    change(data) {
       this.category = data;
     },
     chooseCategory(data) {
@@ -59,9 +76,27 @@ export default {
         value,
         id: this.paymentIdx + 1,
       };
-      this.show = false;
-      this.$emit("addNewPayment", data);
+      if (this.getValueQueryFromRoute && this.getCategoryParamFromRoute) {
+        this.$store.commit("addDataToPaymentList", data);
+        this.$router.push("/dashboard");
+      } else {
+        this.$emit("addNewPayment", data);
+      }
     },
+  },
+  created() {
+    if (
+      (!this.getValueQueryFromRoute || !this.getCategoryParamFromRoute) &&
+      this.$route.name !== "dashboard"
+    ) {
+      this.$router.push("/dashboard");
+    }
+    if (this.getCategoryParamFromRoute) {
+      this.category = this.getCategoryParamFromRoute;
+    } else {
+      this.category = "Food";
+    }
+    this.value = Number(this.getValueQueryFromRoute) || "";
   },
 };
 </script>

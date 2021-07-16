@@ -2,9 +2,9 @@
   <div class="select-form">
     <div>
       <select
+        @change="$emit('select', category)"
         placeholder="category"
         v-model="category"
-        @change="$emit('select', this.category)"
       >
         <option
           :value="category"
@@ -25,6 +25,7 @@
 <script>
 import addCategory from "./addCategory.vue";
 export default {
+  props: ["categoryAdd"],
   components: {
     "add-category": addCategory,
   },
@@ -36,14 +37,15 @@ export default {
   data() {
     return {
       openComp: false,
-      category: "Food",
+      category: this.categoryAdd,
     };
   },
   methods: {
-    closeWindow(data) {
+    closeWindow() {
       this.openComp = false;
-      this.category = data;
-      this.$emit("changeCategoty", this.category);
+      if (this.openComp === false) {
+        this.$emit("changeCategoty", this.category);
+      }
     },
   },
 };

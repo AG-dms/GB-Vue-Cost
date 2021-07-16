@@ -26,7 +26,7 @@ export default {
   methods: {
     addCategory() {
       this.$store.commit("addNewCategory", this.newCategory);
-      this.$emit("close", this.newCategory);
+      this.$emit("close");
     },
   },
 };
