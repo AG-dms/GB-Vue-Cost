@@ -11,6 +11,7 @@
         <category
           :categoryAdd="getCategoryParamFromRoute"
           @changeCategory="change"
+          @changeCategotyTest="changeTest"
           @select="chooseCategory"
         ></category>
         <input type="text" placeholder="value" v-model.number="value" />
@@ -67,6 +68,9 @@ export default {
     };
   },
   methods: {
+    changeTest(data) {
+      this.category = data;
+    },
     change(data) {
       this.category = data;
     },

@@ -41,11 +41,13 @@ export default {
     };
   },
   methods: {
-    closeWindow() {
+    closeWindow(data) {
+      this.category = data;
       this.openComp = false;
       if (this.openComp === false) {
         this.$emit("changeCategoty", this.category);
       }
+      this.$emit("changeCategotyTest", this.category);
     },
   },
 };
