@@ -2,7 +2,12 @@
   <div class="form-control">
     <div class="form">
       <div class="form-input">
-        <input type="text" placeholder="date" v-model="date" />
+        <input
+          v-model="date"
+          placeholder="date"
+          type="tel"
+          v-mask="'##/##/####'"
+        />
         <category
           :categoryAdd="getCategoryParamFromRoute"
           @changeCategory="change"
@@ -33,7 +38,7 @@ export default {
       if (this.date === "") {
         const date = new Date();
         const day = date.getDate();
-        let month = date.getMonth() + 4;
+        let month = date.getMonth() + 1;
         if (month < 10) {
           month = "0" + month;
         }
