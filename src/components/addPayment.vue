@@ -46,6 +46,7 @@ export default {
           month = "0" + month;
         }
         const year = date.getFullYear();
+
         return `${day}/${month}/${year}`;
       } else {
         return this.date;
@@ -85,6 +86,7 @@ export default {
       category: this.getEditPayment,
       value: "",
       id: "",
+      idxPayment: this.$attrs.settings.idx,
     };
   },
   methods: {
@@ -95,6 +97,7 @@ export default {
       this.category = data;
     },
     addPayment() {
+      this.$popUp.hidePopUp();
       const { category, value } = this;
       const data = {
         date: this.tooday,

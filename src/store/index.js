@@ -23,7 +23,7 @@ export default new Vuex.Store({
             state.paymentsList.splice(playload, 1)
         },
         changePayment(state, playload) {
-            state.paymentsList[playload.idx] = playload
+            state.paymentsList[playload.idxPayment] = playload
         },
         addNewCategory(state, playload) {
             state.categoryList.push(playload);

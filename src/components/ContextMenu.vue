@@ -30,8 +30,8 @@ export default {
       this.$popUp.hidePopUp();
     },
     deletePayment() {
-      console.log(this.$attrs.settings.id);
-      this.$store.commit("deletePayment", this.$attrs.settings.id);
+      console.log(this.settings.id);
+      this.$store.commit("deletePayment", this.settings.id);
       this.$popUp.hidePopUp();
     },
   },
