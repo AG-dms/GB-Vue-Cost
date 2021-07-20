@@ -4,7 +4,12 @@
       Previous
     </button>
     <ul>
-      <li @click="changePage(p)" v-for="p in pageCount" :key="p">
+      <li
+        :class="pageNumber + 1 === p ? 'active' : ''"
+        @click="changePage(p)"
+        v-for="p in pageCount"
+        :key="p"
+      >
         {{ p }}
       </li>
     </ul>
@@ -31,7 +36,7 @@ export default {
     size: {
       type: Number,
       required: false,
-      default: 3,
+      default: 5,
     },
   },
   computed: {
@@ -90,5 +95,8 @@ li:last-child {
   font-weight: 300;
   width: 70px;
   height: 30px;
+}
+.active {
+  font-weight: 600;
 }
 </style>

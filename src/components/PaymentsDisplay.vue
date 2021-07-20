@@ -6,50 +6,85 @@
       <span class="payment-header-title">Category</span>
       <span class="payment-header-title">Value</span>
     </div>
-    <div class="payment-item" v-for="(item, idx) in paginatedData" :key="idx">
-      <span class="payment-item-text">{{ idx + 1 }}</span>
+    <div class="payment-item" v-for="(item, idx) in payment" :key="idx">
+      <span class="payment-item-text">{{ item.id }}</span>
       <span class="payment-item-text">{{ item.date }}</span>
       <span class="payment-item-text">{{ item.category }}</span>
       <span class="payment-item-text">{{ item.value }}</span>
+      <span class="lnr lnr-menu context-icon" @click="openPopUp(idx)"></span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  // components: {
+  //   ContextMenu,
+  // },
   props: {
     payment: {
       type: Array,
       default: () => [],
     },
-    size: {
-      type: Number,
-      required: false,
-      default: 5,
-    },
-    pageNumber: {
-      type: Number,
-    },
+    //Пагинация (лайт версия)
+    // size: {
+    //   type: Number,
+    //   required: false,
+    //   default: 5,
+    // },
+    // pageNumber: {
+    //   type: Number,
+    // },
   },
 
   data() {
-    return {};
+    return {
+      clientX: "",
+      clientY: "",
+    };
   },
   computed: {
-    paginatedData() {
-      const start = this.currentPage * this.size,
-        end = start + this.size;
-      return this.payment.slice(start, end);
-    },
-    currentPage() {
-      return this.pageNumber;
+    //Пагинация (лайт версия)
+    // paginatedData() {
+    //   const start = this.currentPage * this.size,
+    //     end = start + this.size;
+    //   return this.payment.slice(start, end);
+    // },
+    // currentPage() {
+    //   return this.pageNumber;
+    // },
+  },
+  methods: {
+    openPopUp(idx) {
+      this.clientY = event.clientY;
+      this.clientX = event.clientX;
+      this.$popUp.showPopUp("ContextMenu", {
+        header: "testik",
+        id: idx,
+        x: this.clientX,
+        y: this.clientY,
+        test: this.$store.getters.getPaymentList[idx],
+      });
+      this.$store.getters.getPaymentList;
+      console.log(this.id);
     },
   },
-  methods: {},
+
+  // updated() {
+  //   let box = document.querySelector(".context");
+  //   console.log(box);
+  // },
 };
 </script>
 
 <style scoped>
+.context-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 15px;
+  cursor: pointer;
+}
 .payment {
   width: 450px;
 }
