@@ -18,7 +18,12 @@ export default new Vuex.Store({
         },
         addDataToPaymentList(state, payload) {
             state.paymentsList.unshift(payload);
-
+        },
+        deletePayment(state, playload) {
+            state.paymentsList.splice(playload, 1)
+        },
+        changePayment(state, playload) {
+            state.paymentsList[playload.idx] = playload
         },
         addNewCategory(state, playload) {
             state.categoryList.push(playload);
