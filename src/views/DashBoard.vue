@@ -1,6 +1,6 @@
 <template>
   <div class="window">
-    <button-comp @show="OpenAdd"></button-comp>
+    <button-comp></button-comp>
     <main>
       <div class="short">
         <short-cut @openPaymentAdd="show = !show"></short-cut>
@@ -41,6 +41,7 @@ export default {
     "payment-display": paymentDisplay,
     "pagination-hard": HardPagination,
   },
+
   data() {
     return {
       show: false,
@@ -61,9 +62,9 @@ export default {
     },
   },
   methods: {
-    OpenAdd() {
-      this.show = !this.show;
-    },
+    // OpenAdd() {
+    //   this.show = !this.show;
+    // },
 
     OnChange(p) {
       this.curPage = p;

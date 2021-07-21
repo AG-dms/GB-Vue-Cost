@@ -8,7 +8,7 @@
 export default {
   computed: {
     text() {
-      if (this.isOpen === true) {
+      if (this.$modal.settings) {
         return "Close payment form";
       } else {
         return "ADD NEW COST +";
@@ -31,8 +31,10 @@ export default {
         this.$modal.hide();
         this.isOpen;
       }
+      this.$modal.EventBus;
     },
   },
+  created() {},
 };
 </script>
   <style scoped>

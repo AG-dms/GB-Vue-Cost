@@ -101,7 +101,6 @@ export default {
         idx: this.popSettings.id,
         item: { date, category, value, id },
       };
-      console.log(data);
       this.$store.commit("changePayment", data);
       this.$modal.hide();
       this.$popUp.hidePopUp();
@@ -127,6 +126,7 @@ export default {
       } else {
         this.$store.commit("addDataToPaymentList", data);
         this.$modal.hide();
+        this.$popUp.hidePopUp();
       }
     },
   },
