@@ -9,13 +9,14 @@
           v-model="date"
         />
         <category
-          :categoryAdd="getCategory"
+          :categoryAdd="finalCategory"
           @changeCategory="change"
           @select="chooseCategory"
         ></category>
         <input type="text" placeholder="value" v-model.number="value" />
       </div>
       <button class="btn primary" @click="addPayment">ADD +</button>
+      <button class="btn primary" @click="changePayment">Change</button>
     </div>
   </div>
 </template>
@@ -25,6 +26,13 @@ import category from "./category";
 export default {
   components: { category: category },
   props: {
+    popSettings: {
+      type: Object,
+    },
+    settings: {
+      type: Object,
+    },
+
     payment: {
       type: Array,
       default: () => [],
@@ -34,9 +42,6 @@ export default {
     },
   },
   computed: {
-    getEditPayment() {
-      return this.$store.getters.getPaymentList[this.$attrs.settings.idx];
-    },
     tooday() {
       if (this.date === "") {
         const date = new Date();
@@ -61,35 +66,46 @@ export default {
     getCategoryParamFromRoute() {
       return this.$route.params?.category;
     },
-    getCategory() {
-      if (this.getCategoryParamFromRoute) {
-        return this.getCategoryParamFromRoute;
-      } else if (this.getEditPayment) {
-        return this.getEditPayment.category;
-      } else {
-        return "Food";
-      }
-    },
-    getValue() {
+
+    finalValue() {
       if (this.getValueQueryFromRoute) {
         return this.getValueQueryFromRoute;
-      } else if (this.getEditPayment) {
-        return Number(this.getEditPayment.value);
-      } else {
-        return null;
-      }
+      } else if (this.popSettings.name) {
+        return this.popSettings.item.value;
+      } else return "";
+    },
+
+    finalCategory() {
+      if (this.getCategoryParamFromRoute) {
+        return this.getCategoryParamFromRoute;
+      } else if (this.popSettings.name) {
+        return this.popSettings.item.category;
+      } else return "Food";
     },
   },
   data() {
     return {
       date: "",
-      category: this.getEditPayment,
-      value: "",
+      category: this.finalCategory,
+      value: Number(this.finalValue),
       id: "",
-      idxPayment: this.$attrs.settings.idx,
     };
   },
   methods: {
+    changePayment() {
+      const { category, value } = this;
+      const date = this.date;
+      console.log(date);
+      const id = this.popSettings.item.id;
+      const data = {
+        idx: this.popSettings.id,
+        item: { date, category, value, id },
+      };
+      console.log(data);
+      this.$store.commit("changePayment", data);
+      this.$modal.hide();
+      this.$popUp.hidePopUp();
+    },
     change(data) {
       this.category = data;
     },
@@ -114,22 +130,31 @@ export default {
       }
     },
   },
-  created() {
-    if (
-      (!this.getValueQueryFromRoute || !this.getCategoryParamFromRoute) &&
-      this.$route.name !== "dashboard"
-    ) {
-      this.$router.push("/dashboard");
-    }
-    if (this.getCategoryParamFromRoute) {
-      this.category = this.getCategoryParamFromRoute;
-    } else if (this.getCategory) {
-      this.category = this.getCategory;
-    } else {
-      this.category = "Food";
-    }
-    this.value = Number(this.getValue) || "";
+  mounted() {
+    this.category = this.finalCategory;
+    this.value = this.finalValue;
   },
+
+  // created() {
+  //   if (
+  //     (!this.getValueQueryFromRoute || !this.getCategoryParamFromRoute) &&
+  //     this.$route.name !== "dashboard"
+  //   ) {
+  //     this.$router.push("/dashboard");
+  //   }
+
+  //   if (this.getCategoryParamFromRoute) {
+  //     this.category = this.getCategoryParamFromRoute;
+  //   } else {
+  //     this.category = "Food";
+  //   }
+
+  //   this.value = Number(this.getValue) || "";
+
+  //   // if (this.popSettings.item.category) {
+  //   //   this.category = this.popSettings.item.category;
+  //   // }
+  // },
 };
 </script>
 

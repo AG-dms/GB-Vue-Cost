@@ -11,7 +11,10 @@
       <span class="payment-item-text">{{ item.date }}</span>
       <span class="payment-item-text">{{ item.category }}</span>
       <span class="payment-item-text">{{ item.value }}</span>
-      <span class="lnr lnr-menu context-icon" @click="openPopUp(idx)"></span>
+      <span
+        class="lnr lnr-menu context-icon"
+        @click="openPopUp(item, idx)"
+      ></span>
     </div>
   </div>
 </template>
@@ -55,7 +58,7 @@ export default {
     // },
   },
   methods: {
-    openPopUp(idx) {
+    openPopUp(item, idx) {
       this.clientY = event.clientY;
       this.clientX = event.clientX;
       this.$popUp.showPopUp("ContextMenu", {
@@ -63,17 +66,11 @@ export default {
         id: idx,
         x: this.clientX,
         y: this.clientY,
-        test: this.$store.getters.getPaymentList[idx],
+        item: item,
       });
-      this.$store.getters.getPaymentList;
-      console.log(this.id);
+      // this.$store.getters.getPaymentList;
     },
   },
-
-  // updated() {
-  //   let box = document.querySelector(".context");
-  //   console.log(box);
-  // },
 };
 </script>
 

@@ -9,6 +9,7 @@
       <modal-window
         v-if="modalSettings.name"
         :settings="modalSettings"
+        :popSettings="popUpSettings"
       ></modal-window>
       <pop-up
         :settings="popUpSettings"

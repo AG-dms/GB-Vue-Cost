@@ -2,7 +2,11 @@
   <div class="wrapper">
     <div class="header">{{ settings.header }}</div>
     <div class="content">
-      <component :settings="testData" :is="settings.name"></component>
+      <component
+        :popSettings="popSettings"
+        :settings="settings"
+        :is="settings.name"
+      ></component>
     </div>
   </div>
 </template>
@@ -17,6 +21,7 @@ export default {
   },
   props: {
     settings: Object,
+    popSettings: Object,
   },
   data() {
     return {
