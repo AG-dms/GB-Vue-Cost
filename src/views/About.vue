@@ -1,7 +1,6 @@
 <template>
   <div>
     <div>About</div>
-    <button @click="showCalcForm">Open calculator</button>
   </div>
 </template>
 
@@ -9,10 +8,7 @@
 export default {
   methods: {
     showCalcForm() {
-      this.$modal.show("calc", {
-        header: "Addaa",
-        test: "test",
-      });
+      this.$modal.show("calc", {});
     },
   },
 };

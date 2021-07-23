@@ -10,11 +10,16 @@ Vue.use(Router);
 export default new Router({
     mode: "history",
     routes: [{
+            path: '/calc',
+            component: () => import('../components/calc.vue')
+        },
+        {
             path: '/dashboard',
             component: () => import('../views/DashBoard.vue'),
             name: 'dashboard',
             alias: "/"
         },
+
 
         {
             path: '/about',

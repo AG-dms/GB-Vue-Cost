@@ -4,6 +4,7 @@
     <div class="menu">
       <router-link to="/dashboard">DashBoard</router-link>
       <router-link to="/about">About</router-link>
+      <router-link to="/calc">Calculator</router-link>
     </div>
     <transition name="fade">
       <modal-window

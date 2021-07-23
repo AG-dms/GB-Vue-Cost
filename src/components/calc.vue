@@ -1,218 +1,274 @@
 <template>
-  <div>
+  <div class="container">
     <h1>{{ title }}</h1>
-    <div>
-      <input type="number" placeholder="op1" v-model.number="operand1" />
-      <input type="number" placeholder="op2" v-model.number="operand2" />
-      = {{ result }} - {{ fibResult }}
+    <div class="operands">
+      <input
+        name="operand1"
+        v-model.number="operand1"
+        type="text"
+        placeholder="Число 1"
+      />
+      <input
+        name="operand2"
+        v-model.number="operand2"
+        type="text"
+        placeholder="Число 2"
+      />
+      <p v-if="infinity">На ноль делить нельзя</p>
+      <h3>Результат: {{ result }}</h3>
     </div>
-    <div class="error" v-if="error">Ошибка: {{ error }}</div>
-    <div class="strang-message">
-      <template v-if="result < 0">Отрицательное число</template>
-      <template v-else-if="result < 100">Число меньше 100</template>
-      <template v-else>Число больше 100</template>
-    </div>
-    <!-- <div class="clollection">
-       <div v-for="(item, idx) in collection" :key="idx">
-        {{ idx + 1 }} - {{ item }}
-       </div>
-     </div> -->
     <div class="buttons">
+      <button name="+" class="btn" @click="add">+</button>
+      <button name="-" class="btn" @click="substract">-</button>
+      <button name="*" class="btn" @click="multiply">*</button>
+      <button name="/" class="btn" @click="divide">/</button>
+      <button name="degree" class="spec" @click="exponentiation">
+        Число 1 в степени числа 2
+      </button>
+
       <button
-        v-for="btn in buttons"
-        :key="btn"
-        v-bind:title="btn"
-        :disabled="operand2 === 0"
-        @click="calculate(btn)"
+        name="zero%"
+        class="spec"
+        @click="result = Math.floor(+operand1 / +operand2)"
       >
-        {{ btn }}
+        % (деление без остатка)
       </button>
     </div>
-    <!-- <div class="keybord">
-       <input type="checkbox" id="checkbox" v-model="checkbox">
-      <label for="checkbox">{{ keybord }}</label>
-     </div> -->
-    <!-- <div class="keybord">
-      <input type="checkbox" id="checkbox" v-model="checkbox">
-      <label for="checkbox">{{ keybord }}</label>
-      </div>
-      <div class="bord" v-show="checkbox">
-          <button v-for="(bord, idx) in collection"
-          :key="idx"
-          @click="operand1 = bord"
-          v-on:click="operand2 = bord">
-          {{ bord }}</button>
-          <button class="cancel"
-          @click="operand1 = 0"
-          v-on:click="operand2 = 0"> Cancel{{ cancel }}</button>
-      </div>
-        <div class="radio">
-          <input type="radio" id="op1"
-          value="operand1" v-model.number="radio"
-          vm.value = vm.radio>
-          <label for="op1">Operand1</label>
-          <input type="radio" id="op2"
-          value="operand2" v-model.number="radio"
-          vm.value = vm.radio>
-          <label for="op2">Operand2</label>
-        </div>
-     <div class="logs">
-       {{ logs }}
-     </div> -->
-    <!--       <div>
-        <button @click="calculate('+')">+</button>
-        <button @click="calculate('-')">-</button>
-        <button @click="calculate('*')">*</button>
-        <button @click="calculate('/')">/</button>
-        <button @click="calculate('^')">^</button>
-        <button @click="calculate('%')">%</button>
-      </div> -->
-    <div class="keybord">
-      <input type="checkbox" id="checkbox" v-model="checkbox" />
-      <label for="checkbox">{{ keybord }}</label>
+    <div class="keyboard">
+      <label for="keyboard">Включить экранную клавиатуру</label>
+      <input type="checkbox" name="keyboard" v-model="checked" />
     </div>
-    <div class="bord" v-show="checkbox">
-      <button
-        v-for="(bord, idx) in collection"
-        :key="idx"
-        @click="inputNum(bord)"
-      >
-        {{ bord }}
-      </button>
-      <button class="cancel" @click="operand1 = 0" v-on:click="operand2 = 0">
-        Cancel{{ cancel }}
-      </button>
+    <div class="keyShow" v-if="checked">
+      <ul class="keyboard-list">
+        <li
+          @click="type(item)"
+          class="keyboard-list-item"
+          v-for="item in keyboard"
+          :key="item"
+        >
+          {{ item }}
+        </li>
+        <button name="delete" @click="deleteNum" class="keyboard-list-item">
+          del
+        </button>
+      </ul>
+
+      <form>
+        <label class="operand1">
+          Операнд1
+          <input
+            name="operan11"
+            v-model="choseOperand"
+            type="radio"
+            value="operand1"
+        /></label>
+
+        <!-- <label class="operand">
+          Операнд2
+          <input
+            name="operand2"
+            v-model="choseOperand"
+            type="radio"
+            value="operand2"
+          />
+        </label> -->
+      </form>
     </div>
-    <div class="radio">
-      <input type="radio" id="op1" value="operand1" v-model="radio" />
-      <label for="op1">Operand1</label>
-      <input type="radio" id="op2" value="operand2" v-model="radio" />
-      <label for="op2">Operand2</label>
-    </div>
-    Result {{ result }}
   </div>
 </template>
 
 <script>
 export default {
-  name: "Calc",
-  data: () => ({
-    operand1: 0,
-    operand2: 0,
-    result: 0,
-    title: "Калькулятор",
-    buttons: ["+", "-", "*", "/", "^", "%"],
-    collection: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-    fibResult: 0,
-    logs: {},
-    keybord: "Показать экранную клавиатуру",
-    checkbox: false,
-    bord: 0,
-    checked: [],
-    cancel: "",
-    radio: null,
-    error: "",
-  }),
-  methods: {
-    inputNum(bord) {
-      this.toStringg();
-      if (this.radio === "operand1") {
-        this.operand1 += bord;
+  name: "App",
+  computed: {
+    focus() {
+      if (this.choseOperand === "operand1") {
+        return "operand1";
+      } else if (this.choseOperand === "operand2") {
+        return "operand2";
       } else {
-        this.operand2 += bord;
+        return false;
       }
+    },
+  },
+  data() {
+    return {
+      title: "Калькулятор",
+      operand1: "",
+      operand2: "",
+      result: 0,
+      infinity: false,
+      keyboard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      checked: true,
+      choseOperand: null,
+    };
+  },
+  methods: {
+    deleteNum() {
+      if (this.choseOperand === "operand1") {
+        this.operand1 = this.operand1.slice(0, -1);
+      } else if (this.choseOperand === "operand2") {
+        this.operand2 = this.operand2.slice(0, -1);
+      }
+    },
+    type(item) {
+      if (this.choseOperand === "operand1") {
+        this.operand1 += item;
+      } else if (this.choseOperand === "operand2") {
+        this.operand2 += item;
+      }
+    },
+    add() {
+      this.toNumber();
+      this.result = this.operand1 + this.operand2;
+      this.toStringg();
+    },
+    substract() {
+      this.toNumber();
+      this.result = this.operand1 - this.operand2;
+      this.toStringg();
+    },
+    divide() {
+      this.toNumber();
+      if (this.operand2 === 0) {
+        this.infinity = true;
+        this.result = "";
+      } else {
+        this.result = this.operand1 / this.operand2;
+      }
+      this.toStringg();
+    },
+    multiply() {
+      this.toNumber();
+      this.result = this.operand1 * this.operand2;
+      this.toStringg();
+    },
+    exponentiation() {
+      this.toNumber();
+      this.result = Math.pow(this.operand1, this.operand2);
+      this.toStringg();
+    },
+    remainder() {
+      this.toNumber();
+      if (this.operand2 === 0) {
+        this.infinity = true;
+        this.result = "";
+      } else {
+        this.result = Math.floor(this.operand1 / this.operand2);
+      }
+      this.toStringg();
+    },
+    toNumber() {
+      this.operand1 = parseInt(this.operand1);
+      this.operand2 = parseInt(this.operand2);
     },
     toStringg() {
       this.operand1 = this.operand1.toString();
       this.operand2 = this.operand2.toString();
-    },
-
-    fib(n) {
-      return n <= 1 ? n : this.fib(n - 1) + this.fib(n - 2);
-    },
-    calculate(operation = "+") {
-      this.error = "";
-      switch (operation) {
-        case "+":
-          this.add();
-          break;
-        case "-":
-          this.substract();
-          break;
-        case "*":
-          this.multiply();
-          break;
-        case "/":
-          this.divide();
-          break;
-        case "^":
-          this.expo();
-          break;
-        case "%":
-          this.int();
-          break;
-      }
-      const key = Date.now();
-      const value = `${this.operand1} ${operation} ${this.operand2} = ${this.result}`;
-      this.$set(this.logs, key, value);
-    },
-    /*     calculate (op) {
-      const calcOperations = {
-        '+': () => this.operand1 + this.operand2,
-        '-': () => this.operand1 - this.operand2,
-        '*': () => this.operand1 * this.operand2,
-        '/': () => this.operand1 / this.operand2,
-        '^': () => Math.pow(this.operand1, this.operand2),
-        '%': () => Math.ceil(this.operand1 / this.operand2)
-      }
-      this.result = calcOperations[op]()
-    }, */
-    add() {
-      this.result = this.operand1 + this.operand2;
-      this.fibResult = this.fib(this.operand1) + this.fib(this.operand2);
-      // this.fibResult = this.fib1 + this.fib2
-    },
-    substract() {
-      this.result = this.operand1 - this.operand2;
-    },
-    divide() {
-      const { operand1, operand2 } = this;
-      if (operand2 === 0) {
-        this.error = "На 0 делить нельзя";
-      } else {
-        this.result = operand1 / this.operand2;
-      }
-    },
-    multiply() {
-      this.result = this.operand1 * this.operand2;
-    },
-    expo() {
-      this.result = Math.pow(this.operand1, this.operand2);
-    },
-    int() {
-      if (this.operand1 < this.operand2) {
-        this.result = Math.floor(this.operand1 / this.operand2);
-      } else if (this.operand1 > this.operand2) {
-        this.result = Math.ceil(this.operand1 / this.operand2);
-      }
-    },
-  },
-  computed: {
-    fib1() {
-      return this.fib(this.operand1);
-    },
-    fib2() {
-      return this.fib(this.operand2);
     },
   },
 };
 </script>
 
 <style scoped>
-.error {
-  color: red;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-button {
-  margin: 5px;
+body {
+  font-family: "Open Sans", sans-serif;
+}
+#app {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.container {
+  width: 1000px;
+  height: 500px;
+  margin: 0 auto;
+  border: 2px solid rgb(15, 160, 88);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+}
+h1,
+h3 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+h3 {
+  margin-top: 10px;
+}
+.operands {
+  width: 350px;
+  margin: 0 auto;
+}
+.buttons {
+  width: 500px;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+}
+.btn {
+  font-weight: bold;
+  width: 20px;
+}
+.keyboard {
+  display: flex;
+  margin: 20px auto;
+}
+.keyboard input {
+  margin-top: 5px;
+  margin-left: 13px;
+}
+.keyboard-list {
+  list-style: none;
+  display: flex;
+  margin: 20px auto;
+}
+.keyboard-list-item,
+.btn,
+.spec {
+  height: 25px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid;
+  background-color: rgb(34, 165, 93);
+  color: white;
+}
+.keyboard-list-item {
+  width: 25px;
+}
+.keyboard-list-item:not(:first-child) {
+  margin-left: 5px;
+}
+.keyShow {
+  margin: 0 auto;
+}
+form {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+.operand:first-child {
+  margin-right: 15px;
+}
+.operand:hover {
+  cursor: pointer;
+  border-bottom: 2px solid rgb(34, 165, 93);
+}
+button:not(:first-child) {
+  margin-left: 5px;
+}
+button:active,
+.btn:active,
+.spec:active .keyboard-list-item:active {
+  box-shadow: 1px 1px 3px rgb(34, 165, 93);
 }
 </style>
