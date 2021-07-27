@@ -1,12 +1,34 @@
 <template>
-  <div class="payment">
-    <div class="payment-header">
+  <v-container>
+    <v-row class="font-weight-bold text-center" justify="center" align="center">
+      <v-col :cols="2" justify="center">#</v-col>
+      <v-col :cols="4" justify="center">Date</v-col>
+      <v-col :cols="4" justify="center">Category</v-col>
+      <v-col :cols="2" justify="center">Value</v-col>
+    </v-row>
+    <!-- <div class="payment-header">
       <span class="payment-header-title">#</span>
       <span class="payment-header-title">Date</span>
       <span class="payment-header-title">Category</span>
       <span class="payment-header-title">Value</span>
-    </div>
-    <div class="payment-item" v-for="(item, idx) in payment" :key="idx">
+    </div> -->
+    <v-row
+      justify="center"
+      align="center"
+      class="line text-center"
+      v-for="(item, idx) in payment"
+      :key="idx"
+    >
+      <v-col :cols="2">{{ item.id }}</v-col>
+      <v-col :cols="4">{{ item.date }}</v-col>
+      <v-col :cols="4">{{ item.category }}</v-col>
+      <v-col :cols="2">{{ item.value }}</v-col>
+      <span
+        class="lnr lnr-menu context-icon"
+        @click="openPopUp(item, idx)"
+      ></span>
+    </v-row>
+    <!-- <div class="payment-item" v-for="(item, idx) in payment" :key="idx">
       <span class="payment-item-text">{{ item.id }}</span>
       <span class="payment-item-text">{{ item.date }}</span>
       <span class="payment-item-text">{{ item.category }}</span>
@@ -15,8 +37,8 @@
         class="lnr lnr-menu context-icon"
         @click="openPopUp(item, idx)"
       ></span>
-    </div>
-  </div>
+    </div> -->
+  </v-container>
 </template>
 
 <script>
@@ -75,13 +97,17 @@ export default {
 </script>
 
 <style scoped>
+.line {
+  position: relative;
+}
 .context-icon {
   position: absolute;
-  top: 0;
+  top: 15px;
   right: 0;
   font-size: 15px;
   cursor: pointer;
 }
+/*
 .payment {
   width: 450px;
 }
@@ -125,5 +151,5 @@ export default {
   right: 0;
   top: -10px;
   cursor: pointer;
-}
+} */
 </style>

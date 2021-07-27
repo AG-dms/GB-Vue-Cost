@@ -1,7 +1,14 @@
 <template>
-  <div class="select-form">
+  <div>
     <div>
-      <select
+      <v-select
+        :items="categorys"
+        label="category"
+        :value="category"
+        @change="$emit('select', category)"
+      >
+      </v-select>
+      <!-- <select
         @change="$emit('select', category)"
         placeholder="category"
         v-model="category"
@@ -13,10 +20,8 @@
         >
           {{ category }}
         </option>
-      </select>
-      <button @click="openComp = !openComp" class="btn primary">
-        Add new category
-      </button>
+      </select> -->
+      <button @click="openComp = !openComp">Add new category</button>
     </div>
     <add-category @close="closeWindow" v-if="openComp === true"></add-category>
   </div>
@@ -54,7 +59,7 @@ export default {
 </script>
 
 <style scoped>
-select {
+/* select {
   width: 300px;
   margin-right: 10px;
 }
@@ -69,5 +74,5 @@ select {
   margin: 0;
   width: 140px;
   align-self: baseline;
-}
+} */
 </style>

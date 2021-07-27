@@ -1,6 +1,8 @@
 <template>
   <div class="window">
-    <button-comp></button-comp>
+    <div class="text-h5 text-md-h3 mb-8">My personal costs</div>
+
+    <button-comp :expandOpen="expandOpen"></button-comp>
     <main>
       <div class="short">
         <short-cut @openPaymentAdd="show = !show"></short-cut>
@@ -17,9 +19,11 @@
         </h3>
         <pagination-hard
           @paginate="OnChange"
+          @input="OnChange"
           :n="n"
           :cur="curPage"
           :length="paymentsList.length"
+          :list="paymentsList"
         ></pagination-hard>
       </div>
     </main>
@@ -35,6 +39,7 @@ import HardPagination from "@/components/HardPagination.vue";
 import { mapMutations, mapGetters, mapActions } from "vuex";
 
 export default {
+  props: ["expandOpen"],
   components: {
     "short-cut": ShortCut,
     buttonComp,
@@ -102,7 +107,7 @@ export default {
 </script>
 
 <style scoped>
-.content-page {
+/* .content-page {
   display: flex;
   flex-direction: column;
 }
@@ -129,5 +134,5 @@ main {
 
 .link:not(:last-child) {
   margin-right: 10px;
-}
+} */
 </style>

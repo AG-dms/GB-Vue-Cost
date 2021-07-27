@@ -1,8 +1,7 @@
 <template>
-  <div class="pagination">
-    <div class="btn" @click="onClick(cur - 1)">previos</div>
+  <div>
+    <div @click="onClick(cur - 1)">previos</div>
     <div
-      class="pages"
       v-for="i in amount"
       :class="cur === i ? 'active' : ''"
       :key="i"
@@ -10,13 +9,15 @@
     >
       {{ i }}
     </div>
-    <div class="btn" @click="onClick(cur + 1)">next</div>
+    <div @click="onClick(cur + 1)">next</div>
+    <!-- <v-pagination previous next v-model="list" :length="amount"> </v-pagination> -->
   </div>
 </template>
 
 <script>
 export default {
   props: {
+    list: Array,
     length: Number,
     n: Number,
     cur: Number,
@@ -37,7 +38,7 @@ export default {
 };
 </script>
 <style scoped>
-.btn {
+/* .btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,6 +53,6 @@ export default {
 }
 .active {
   font-weight: 600;
-}
+} */
 </style>
 

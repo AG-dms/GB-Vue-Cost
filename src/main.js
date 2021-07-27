@@ -2,9 +2,10 @@ import Vue from 'vue'
 import App from './App.vue';
 import store from "./store";
 import router from "./route";
-import modal from "./components/plagins/ModalWindow";
-import popUp from "./components/plagins/popUp/popUpPlagin"
+import modal from "./plugins/ModalWindow";
+import popUp from "./plugins/popUp/popUpPlagin"
 import VueTheMask from 'vue-the-mask'
+import vuetify from './plugins/vuetify'
 Vue.use(VueTheMask)
 Vue.use(modal);
 Vue.use(popUp);
@@ -17,5 +18,6 @@ new Vue({
   render: h => h(App),
   store,
   router,
+  vuetify,
   VueTheMask
 }).$mount('#app')

@@ -25,6 +25,8 @@ export default {
         header: "Add payment",
         idx: this.settings.id,
       });
+      this.$emit("test");
+      this.$emit("changeBtn");
     },
     closePop() {
       this.$popUp.hidePopUp();

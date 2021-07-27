@@ -1,24 +1,26 @@
   <template>
-  <button class="btn primary" @click="showPaymentForm">
+  <v-btn color="teal" dark @click="showPaymentForm"
+    >{{ text }} <v-icon>mdi-plus</v-icon></v-btn
+  >
+  <!-- <button @click="showPaymentForm">
     {{ text }}
-  </button>
+  </button> -->
 </template>
 
   <script>
 export default {
+  props: ["expandOpen"],
   computed: {
     text() {
-      if (this.$modal.settings) {
+      if (this.expandOpen) {
         return "Close payment form";
       } else {
-        return "ADD NEW COST +";
+        return "ADD NEW COST";
       }
     },
   },
   data() {
-    return {
-      isOpen: false,
-    };
+    return {};
   },
   methods: {
     showPaymentForm() {
@@ -29,16 +31,12 @@ export default {
         });
       } else {
         this.$modal.hide();
-        this.isOpen;
       }
-      this.$modal.EventBus;
+      this.$parent.$emit("test");
     },
   },
   created() {},
 };
 </script>
   <style scoped>
-button {
-  display: block;
-}
 </style>

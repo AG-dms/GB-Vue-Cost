@@ -1,11 +1,14 @@
 <template>
   <div class="wrapper">
-    <div class="header">{{ settings.header }}</div>
+    <div class="text-h5 text-md-h4 mb-4 teal--text">
+      {{ settings.header }}
+    </div>
     <div class="content">
       <component
         :popSettings="popSettings"
         :settings="settings"
         :is="settings.name"
+        :btn="btn"
       ></component>
     </div>
   </div>
@@ -20,13 +23,12 @@ export default {
     Calc,
   },
   props: {
+    btn: Boolean,
     settings: Object,
     popSettings: Object,
   },
   data() {
-    return {
-      testData: this.settings,
-    };
+    return {};
   },
   methods: {},
 };

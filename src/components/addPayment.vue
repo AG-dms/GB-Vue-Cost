@@ -1,7 +1,7 @@
 <template>
-  <div class="form-control">
-    <div class="form">
-      <div class="form-input">
+  <div>
+    <div>
+      <div>
         <input
           type="tel"
           v-mask="'##/##/####'"
@@ -13,10 +13,21 @@
           @changeCategory="change"
           @select="chooseCategory"
         ></category>
-        <input type="text" placeholder="value" v-model.number="value" />
+        <v-text-field v-model.number="value" label="value"></v-text-field>
+        <!-- <input type="text" placeholder="value" v-model.number="value" /> -->
       </div>
-      <button class="btn primary" @click="addPayment">ADD +</button>
-      <button class="btn primary" @click="changePayment">Change</button>
+      <v-btn
+        v-if="btn"
+        color="teal"
+        depressed
+        width="100px"
+        dark
+        @click="addPayment"
+        >ADD +</v-btn
+      >
+      <v-btn v-if="!btn" color="teal" width="100px" dark @click="changePayment"
+        >Change</v-btn
+      >
     </div>
   </div>
 </template>
@@ -26,6 +37,9 @@ import category from "./category";
 export default {
   components: { category: category },
   props: {
+    btn: {
+      type: Boolean,
+    },
     popSettings: {
       type: Object,
     },
@@ -86,16 +100,14 @@ export default {
   data() {
     return {
       date: "",
-      category: this.finalCategory,
-      value: Number(this.finalValue),
-      id: "",
+      category: null,
+      value: null,
     };
   },
   methods: {
     changePayment() {
       const { category, value } = this;
       const date = this.date;
-      console.log(date);
       const id = this.popSettings.item.id;
       const data = {
         idx: this.popSettings.id,
@@ -103,6 +115,9 @@ export default {
       };
       this.$store.commit("changePayment", data);
       this.$modal.hide();
+
+      this.$parent.$emit("test");
+      this.$parent.$emit("changeBtn");
       this.$popUp.hidePopUp();
     },
     change(data) {
@@ -112,7 +127,6 @@ export default {
       this.category = data;
     },
     addPayment() {
-      this.$popUp.hidePopUp();
       const { category, value } = this;
       const data = {
         date: this.tooday,
@@ -125,8 +139,9 @@ export default {
         this.$router.push("/dashboard");
       } else {
         this.$store.commit("addDataToPaymentList", data);
-        this.$modal.hide();
+
         this.$popUp.hidePopUp();
+        this.$parent.$emit("test");
       }
     },
   },
@@ -159,45 +174,4 @@ export default {
 </script>
 
 <style>
-button,
-input {
-  outline: none;
-}
-
-button:active,
-input:active,
-input:focus,
-select:focus {
-  outline: none;
-}
-.form-control {
-  width: 450px;
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-}
-.form {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
-}
-.form button {
-  align-self: center;
-  margin-top: 5px;
-}
-.form-input {
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.form-input input,
-select {
-  padding: 5px;
-  border: 1px solid grey;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  width: inherit;
-  height: 35px;
-}
 </style>

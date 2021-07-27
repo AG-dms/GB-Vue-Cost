@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <div>
     <h1>{{ title }}</h1>
-    <div class="operands">
+    <div>
       <input
         name="operand1"
         v-model.number="operand1"
@@ -17,40 +17,29 @@
       <p v-if="infinity">На ноль делить нельзя</p>
       <h3>Результат: {{ result }}</h3>
     </div>
-    <div class="buttons">
-      <button name="+" class="btn" @click="add">+</button>
-      <button name="-" class="btn" @click="substract">-</button>
-      <button name="*" class="btn" @click="multiply">*</button>
-      <button name="/" class="btn" @click="divide">/</button>
+    <div>
+      <button name="+" @click="add">+</button>
+      <button name="-" @click="substract">-</button>
+      <button name="*" @click="multiply">*</button>
+      <button name="/" @click="divide">/</button>
       <button name="degree" class="spec" @click="exponentiation">
         Число 1 в степени числа 2
       </button>
 
-      <button
-        name="zero%"
-        class="spec"
-        @click="result = Math.floor(+operand1 / +operand2)"
-      >
+      <button name="zero%" @click="result = Math.floor(+operand1 / +operand2)">
         % (деление без остатка)
       </button>
     </div>
-    <div class="keyboard">
+    <div>
       <label for="keyboard">Включить экранную клавиатуру</label>
       <input type="checkbox" name="keyboard" v-model="checked" />
     </div>
     <div class="keyShow" v-if="checked">
-      <ul class="keyboard-list">
-        <li
-          @click="type(item)"
-          class="keyboard-list-item"
-          v-for="item in keyboard"
-          :key="item"
-        >
+      <ul>
+        <li @click="type(item)" v-for="item in keyboard" :key="item">
           {{ item }}
         </li>
-        <button name="delete" @click="deleteNum" class="keyboard-list-item">
-          del
-        </button>
+        <button name="delete" @click="deleteNum">del</button>
       </ul>
 
       <form>
@@ -171,7 +160,7 @@ export default {
 </script>
 
 <style scoped>
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -270,5 +259,5 @@ button:active,
 .btn:active,
 .spec:active .keyboard-list-item:active {
   box-shadow: 1px 1px 3px rgb(34, 165, 93);
-}
+} */
 </style>
