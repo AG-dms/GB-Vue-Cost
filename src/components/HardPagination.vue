@@ -1,16 +1,13 @@
 <template>
   <div>
-    <div @click="onClick(cur - 1)">previos</div>
-    <div
-      v-for="i in amount"
-      :class="cur === i ? 'active' : ''"
-      :key="i"
-      @click="onClick(i)"
+    <v-pagination
+      v-model="cur"
+      :length="amount"
+      :value="0"
+      @input="handlePageChange"
+      color="teal"
     >
-      {{ i }}
-    </div>
-    <div @click="onClick(cur + 1)">next</div>
-    <!-- <v-pagination previous next v-model="list" :length="amount"> </v-pagination> -->
+    </v-pagination>
   </div>
 </template>
 
@@ -28,11 +25,9 @@ export default {
     },
   },
   methods: {
-    onClick(p) {
-      if (p < 1 || p > this.amount || p === this.cur) {
-        return;
-      }
-      this.$emit("paginate", p);
+    handlePageChange(value) {
+      this.cur = value;
+      this.$emit("paginate", value);
     },
   },
 };

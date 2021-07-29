@@ -71,6 +71,7 @@ export default {
         return this.date;
       }
     },
+
     paymentIdx() {
       return this.$store.getters.getPaymentList.length;
     },
@@ -107,7 +108,7 @@ export default {
   methods: {
     changePayment() {
       const { category, value } = this;
-      const date = this.date;
+      const date = this.popSettings.item.date;
       const id = this.popSettings.item.id;
       const data = {
         idx: this.popSettings.id,
@@ -139,9 +140,9 @@ export default {
         this.$router.push("/dashboard");
       } else {
         this.$store.commit("addDataToPaymentList", data);
-
         this.$popUp.hidePopUp();
         this.$parent.$emit("test");
+        this.$modal.hide();
       }
     },
   },

@@ -5,6 +5,7 @@
         :items="categorys"
         label="category"
         :value="category"
+        v-model="category"
         @change="$emit('select', category)"
       >
       </v-select>

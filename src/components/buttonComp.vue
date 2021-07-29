@@ -24,18 +24,16 @@ export default {
   },
   methods: {
     showPaymentForm() {
-      this.isOpen = !this.isOpen;
-      if (this.isOpen === true) {
+      this.$parent.$emit("test");
+      if (!this.expandOpen) {
         this.$modal.show("add-payment", {
           header: "Add payment",
         });
       } else {
         this.$modal.hide();
       }
-      this.$parent.$emit("test");
     },
   },
-  created() {},
 };
 </script>
   <style scoped>

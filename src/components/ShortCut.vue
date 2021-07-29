@@ -6,19 +6,34 @@
     </div>
     <div class="short-btns" v-if="show">
       <router-link to="/add/payment/Food?value=200">
-        <button @click="$emit('openPaymentAdd')" class="btn btn-short">
-          <div class="btn-short-text">food 200</div>
-        </button>
+        <v-btn
+          elevation="2"
+          small
+          color="teal"
+          @click="$emit('openPaymentAdd')"
+          dark
+          >food 200</v-btn
+        >
       </router-link>
       <router-link to="/add/payment/Auto?value=50">
-        <button @click="$emit('openPaymentAdd')" class="btn btn-short">
-          <div class="btn-short-text">Auto 50</div>
-        </button>
+        <v-btn
+          elevation="2"
+          small
+          color="teal"
+          @click="$emit('openPaymentAdd')"
+          dark
+          >Auto 50</v-btn
+        >
       </router-link>
       <router-link to="/add/payment/Health?value=5000">
-        <button @click="$emit('openPaymentAdd')" class="btn btn-short">
-          <div class="btn-short-text">Health 5000</div>
-        </button>
+        <v-btn
+          elevation="2"
+          small
+          color="teal"
+          @click="$emit('openPaymentAdd')"
+          dark
+          >Health 5000</v-btn
+        >
       </router-link>
     </div>
   </div>

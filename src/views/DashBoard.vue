@@ -13,13 +13,12 @@
           :curPage="curPage"
           :payment="currentElements"
         ></payment-display>
-        <h3 class="total">
-          <span>Total:</span>
-          <span>{{ getFPV }}</span>
-        </h3>
+
+        <!-- <v-pagination previous next v-model="list" :length="amount" :value="0">
+    </v-pagination> -->
+
         <pagination-hard
           @paginate="OnChange"
-          @input="OnChange"
           :n="n"
           :cur="curPage"
           :length="paymentsList.length"
@@ -82,12 +81,7 @@ export default {
       this.paymentsList = [...this.paymentsList, data];
     },
     ...mapActions(["fetchData", "fetchCategory"]),
-    previous() {
-      this.curPage--;
-    },
-    next() {
-      this.curPage++;
-    },
+
     addPay() {
       this.show = false;
       // this.$store.commit("addDataToPaymentList", data);

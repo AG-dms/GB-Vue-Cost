@@ -4,22 +4,45 @@ import { Doughnut } from "vue-chartjs";
 
 export default {
   extends: Doughnut,
-  props: ["categorys"],
+  props: ["categorys", "options", "paymentList"],
+
+  computed: {
+    testData() {
+      return this.categorys.map((c) => {
+        return this.paymentList.reduce((total, r) => {
+          if (r.category === c) {
+            total += r.value;
+          }
+          return total;
+        }, 0);
+      });
+    },
+  },
+
   watch: {
     categorys(value) {
       this.chartData.labels = value;
     },
+    paymentList(value) {
+      this.chartData.datasets[0].data = this.testData;
+      this.renderChart(this.chartData, this.options);
+      return value;
+    },
+  },
+  options: {
+    type: Object,
+    default: null,
   },
   data() {
     return {
-      chartCategory: this.categorys,
+      htmlLegend: null,
       paymentCategory: [],
       chartData: {
         labels: this.categorys,
         datasets: [
           {
             label: "Categorys",
-            data: [12, 19, 3, 5, 2, 3],
+            data: this.testData,
             backgroundColor: [
               "rgba(255, 99, 132, 0.2)",
               "rgba(54, 162, 235, 0.2)",
@@ -43,7 +66,24 @@ export default {
     };
   },
   mounted() {
-    this.renderChart(this.chartData);
+    if (this.categorys.length) {
+      this.renderChart(this.chartData);
+      this.htmlLegend = this.generateLegend();
+    } else {
+      return;
+    }
+  },
+  beforeUpdate() {
+    if (this.categorys.length) {
+      this.renderChart(this.chartData);
+      this.htmlLegend = this.generateLegend();
+    }
+  },
+  updated() {
+    if (this.categorys.length) {
+      this.renderChart(this.chartData);
+      this.htmlLegend = this.generateLegend();
+    }
   },
 };
 </script>

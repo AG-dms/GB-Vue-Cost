@@ -8,7 +8,7 @@
     <v-main>
       <v-container>
         <v-row>
-          <v-col>
+          <v-col :cols="6">
             <v-expand-transition>
               <v-card v-show="expand" height="300" width="500">
                 <modal-window
@@ -33,10 +33,30 @@
                 left: `${this.popUpSettings.x - 130}px`,
               }"
             ></pop-up>
-            <router-view :expandOpen="expand" @test="testik"></router-view>
+            <router-view
+              :btn="changeBtn"
+              :expandOpen="expand"
+              @test="testik"
+            ></router-view>
           </v-col>
-          <v-col>
-            <chart :categorys="categorys"> </chart>
+          <v-col :cols="1"></v-col>
+          <v-col :cols="5">
+            <div class="justify-center d-flex align-center">
+              <v-progress-circular
+                v-if="!paymentList.length"
+                :size="70"
+                :width="7"
+                color="green"
+                indeterminate
+              ></v-progress-circular>
+            </div>
+            <chart
+              class="mt-16"
+              :options="options"
+              :categorys="categorys"
+              :paymentList="paymentList"
+            >
+            </chart>
           </v-col>
         </v-row>
       </v-container>
@@ -66,36 +86,14 @@ export default {
 
   data() {
     return {
+      options: {
+        heigth: 100,
+        width: 100,
+      },
       changeBtn: true,
       expand: false,
       modalSettings: {},
       popUpSettings: {},
-      chartdata: {
-        labels: this.categorys,
-        datasets: [
-          {
-            label: "# of Votes",
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 206, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(255, 159, 64, 0.2)",
-            ],
-            borderColor: [
-              "rgba(255, 99, 132, 1)",
-              "rgba(54, 162, 235, 1)",
-              "rgba(255, 206, 86, 1)",
-              "rgba(75, 192, 192, 1)",
-              "rgba(153, 102, 255, 1)",
-              "rgba(255, 159, 64, 1)",
-            ],
-            borderWidth: 1,
-          },
-        ],
-      },
     };
   },
 

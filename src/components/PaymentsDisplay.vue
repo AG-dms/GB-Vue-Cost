@@ -15,33 +15,28 @@
     <v-row
       justify="center"
       align="center"
-      class="line text-center"
+      class="line text-center p-0 my-0"
       v-for="(item, idx) in payment"
       :key="idx"
     >
-      <v-col :cols="2">{{ item.id }}</v-col>
-      <v-col :cols="4">{{ item.date }}</v-col>
-      <v-col :cols="4">{{ item.category }}</v-col>
-      <v-col :cols="2">{{ item.value }}</v-col>
+      <v-col class="pb-0" :cols="2">{{ item.id }}</v-col>
+      <v-col class="pb-0" :cols="4">{{ item.date }}</v-col>
+      <v-col class="pb-0" :cols="4">{{ item.category }}</v-col>
+      <v-col class="pb-0" :cols="2">{{ item.value }}</v-col>
       <span
         class="lnr lnr-menu context-icon"
         @click="openPopUp(item, idx)"
       ></span>
     </v-row>
-    <!-- <div class="payment-item" v-for="(item, idx) in payment" :key="idx">
-      <span class="payment-item-text">{{ item.id }}</span>
-      <span class="payment-item-text">{{ item.date }}</span>
-      <span class="payment-item-text">{{ item.category }}</span>
-      <span class="payment-item-text">{{ item.value }}</span>
-      <span
-        class="lnr lnr-menu context-icon"
-        @click="openPopUp(item, idx)"
-      ></span>
-    </div> -->
+    <v-row justify="space-between" class="text-lg-h6">
+      <span>Total:</span>
+      <span>{{ getFPV }}</span>
+    </v-row>
   </v-container>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   // components: {
   //   ContextMenu,
@@ -69,15 +64,10 @@ export default {
     };
   },
   computed: {
-    //Пагинация (лайт версия)
-    // paginatedData() {
-    //   const start = this.currentPage * this.size,
-    //     end = start + this.size;
-    //   return this.payment.slice(start, end);
-    // },
-    // currentPage() {
-    //   return this.pageNumber;
-    // },
+    ...mapGetters({
+      paymentsList: "getPaymentList",
+      getFPV: "getFullPrise",
+    }),
   },
   methods: {
     openPopUp(item, idx) {
