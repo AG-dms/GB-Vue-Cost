@@ -6,6 +6,7 @@ import modal from "./plugins/ModalWindow";
 import popUp from "./plugins/popUp/popUpPlagin"
 import VueTheMask from 'vue-the-mask'
 import vuetify from './plugins/vuetify'
+
 Vue.use(VueTheMask)
 Vue.use(modal);
 Vue.use(popUp);
@@ -19,5 +20,6 @@ new Vue({
   store,
   router,
   vuetify,
-  VueTheMask
+  VueTheMask,
+
 }).$mount('#app')

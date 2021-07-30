@@ -1,5 +1,6 @@
 import Vue from "vue"
 import Vuex from "vuex"
+import axios from "axios"
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     mutations: {
         setPaymentListData(state, payload) {
             state.paymentsList = payload;
+
         },
         addDataToPaymentList(state, payload) {
             state.paymentsList.unshift(payload);
@@ -49,37 +51,32 @@ export default new Vuex.Store({
     // Ассинхронные действия с хранилищем, запускающие мутации
 
     actions: {
-        fetchData({
+        async fetchData({
             commit,
         }) {
 
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    const items = [];
-                    for (let i = 1; i < 50; i++) {
-                        items.push({
-                            id: i,
-                            date: '11/07/2021',
-                            category: 'Food',
-                            value: 777
-                        });
-                    }
-                    resolve(items.reverse())
-                }, 2000)
-            }).then(res => {
-                commit('setPaymentListData', res);
-            })
+            const {
+                data
+            } = await axios.get('https://cost-vue-default-rtdb.firebaseio.com/payments.json');
+            console.log(data)
+            data.reverse()
+
+            setTimeout(() => {
+                commit('setPaymentListData', data);
+            }, 1000)
+
+
         },
-        fetchCategory({
+
+        async fetchCategory({
             commit
         }) {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve(['Food', 'Sport', 'Education', 'Auto', 'Health', 'Family'])
-                }, 1000)
-            }).then(res => {
-                commit('setCategoryList', res)
-            })
+            const {
+                data
+            } = await axios.get('https://cost-vue-default-rtdb.firebaseio.com/categorys.json');
+
+            commit('setCategoryList', data);
+
         }
 
     }

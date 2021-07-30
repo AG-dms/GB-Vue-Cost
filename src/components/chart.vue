@@ -35,8 +35,6 @@ export default {
   },
   data() {
     return {
-      htmlLegend: null,
-      paymentCategory: [],
       chartData: {
         labels: this.categorys,
         datasets: [
@@ -65,25 +63,8 @@ export default {
       },
     };
   },
-  mounted() {
-    if (this.categorys.length) {
-      this.renderChart(this.chartData);
-      this.htmlLegend = this.generateLegend();
-    } else {
-      return;
-    }
-  },
-  beforeUpdate() {
-    if (this.categorys.length) {
-      this.renderChart(this.chartData);
-      this.htmlLegend = this.generateLegend();
-    }
-  },
-  updated() {
-    if (this.categorys.length) {
-      this.renderChart(this.chartData);
-      this.htmlLegend = this.generateLegend();
-    }
-  },
+  // mounted() {
+  //   this.renderChart(this.chartData, this.options);
+  // },
 };
 </script>

@@ -104,7 +104,7 @@ export default {
     testik() {
       this.expand = !this.expand;
     },
-    ...mapActions(["fetchData", "fetchCategory"]),
+    ...mapActions(["fetchData", "fetchCategory", "test"]),
     popUpShow(settings) {
       this.popUpSettings = settings;
     },
@@ -129,9 +129,11 @@ export default {
     this.$popUp.EventBus.$on("hideUp", this.popUpHide);
     this.$modal.EventBus.$on("show", this.onShow);
     this.$modal.EventBus.$on("hide", this.onHide);
+    this.fetchCategory();
     this.fetchData();
-    if (!this.categorys.length) {
-      this.fetchCategory();
+
+    if (this.categorys.length) {
+      this.fetchData();
     }
   },
 };

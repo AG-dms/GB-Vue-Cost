@@ -16,10 +16,13 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+import axios from "axios";
 export default {
   props: ["settings"],
   computed: {},
   methods: {
+    ...mapActions(["fetchData", "fetchCategory", "test"]),
     changePayment() {
       this.$modal.show("add-payment", {
         header: "Add payment",
@@ -31,8 +34,14 @@ export default {
     closePop() {
       this.$popUp.hidePopUp();
     },
-    deletePayment() {
+    async deletePayment() {
+      await axios.delete(
+        `https://cost-vue-default-rtdb.firebaseio.com/payments/${
+          this.settings.item.id - 1
+        }.json`
+      );
       this.$store.commit("deletePayment", this.settings.id);
+
       this.$popUp.hidePopUp();
     },
   },

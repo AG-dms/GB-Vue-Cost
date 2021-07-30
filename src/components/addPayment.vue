@@ -14,7 +14,6 @@
           @select="chooseCategory"
         ></category>
         <v-text-field v-model.number="value" label="value"></v-text-field>
-        <!-- <input type="text" placeholder="value" v-model.number="value" /> -->
       </div>
       <v-btn
         v-if="btn"
@@ -34,6 +33,7 @@
 
 <script>
 import category from "./category";
+import axios from "axios";
 export default {
   components: { category: category },
   props: {
@@ -106,14 +106,23 @@ export default {
     };
   },
   methods: {
-    changePayment() {
+    async changePayment() {
       const { category, value } = this;
+      const key = this.popSettings.item.id - 1;
       const date = this.popSettings.item.date;
       const id = this.popSettings.item.id;
       const data = {
         idx: this.popSettings.id,
         item: { date, category, value, id },
       };
+      await axios
+        .put(
+          `https://cost-vue-default-rtdb.firebaseio.com/payments/${key}.json`,
+          data.item
+        )
+        .then(function (response) {
+          console.log(response);
+        });
       this.$store.commit("changePayment", data);
       this.$modal.hide();
 
@@ -127,9 +136,10 @@ export default {
     chooseCategory(data) {
       this.category = data;
     },
-    addPayment() {
+    async addPayment() {
       const { category, value } = this;
       const data = {
+        key: this.paymentIdx,
         date: this.tooday,
         category,
         value,
@@ -139,6 +149,14 @@ export default {
         this.$store.commit("addDataToPaymentList", data);
         this.$router.push("/dashboard");
       } else {
+        await axios
+          .put(
+            `https://cost-vue-default-rtdb.firebaseio.com/payments/${data.key}.json`,
+            data
+          )
+          .then(function (response) {
+            console.log(response);
+          });
         this.$store.commit("addDataToPaymentList", data);
         this.$popUp.hidePopUp();
         this.$parent.$emit("test");

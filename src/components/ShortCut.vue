@@ -50,6 +50,9 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
 .wrapper {
   width: 450px;
   margin-bottom: 20px;
