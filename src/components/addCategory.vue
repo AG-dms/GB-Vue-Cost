@@ -1,7 +1,14 @@
 <template>
   <div>
-    <input v-model="newCategory" type="text" placeholder="Write new category" />
-    <button :disabled="!this.newCategory.length" @click="addCategory">+</button>
+    <input
+      v-model="newCategory"
+      type="text"
+      placeholder="Write new category"
+    />
+    <button
+      :disabled="!this.newCategory.length"
+      @click="addCategory"
+    >+</button>
   </div>
 </template>
 

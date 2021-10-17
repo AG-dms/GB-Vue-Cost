@@ -13,7 +13,10 @@
           @changeCategory="change"
           @select="chooseCategory"
         ></category>
-        <v-text-field v-model.number="value" label="value"></v-text-field>
+        <v-text-field
+          v-model.number="value"
+          label="value"
+        ></v-text-field>
       </div>
       <v-btn
         v-if="btn"
@@ -22,11 +25,14 @@
         width="100px"
         dark
         @click="addPayment"
-        >ADD +</v-btn
-      >
-      <v-btn v-if="!btn" color="teal" width="100px" dark @click="changePayment"
-        >Change</v-btn
-      >
+      >ADD +</v-btn>
+      <v-btn
+        v-if="!btn"
+        color="teal"
+        width="100px"
+        dark
+        @click="changePayment"
+      >Change</v-btn>
     </div>
   </div>
 </template>
@@ -117,7 +123,7 @@ export default {
       };
       await axios
         .put(
-          `https://cost-vue-default-rtdb.firebaseio.com/payments/${key}.json`,
+          `https://cost-vue-cli-default-rtdb.firebaseio.com/payments/${key}.json`,
           data.item
         )
         .then(function (response) {
@@ -149,14 +155,10 @@ export default {
         this.$store.commit("addDataToPaymentList", data);
         this.$router.push("/dashboard");
       } else {
-        await axios
-          .put(
-            `https://cost-vue-default-rtdb.firebaseio.com/payments/${data.key}.json`,
-            data
-          )
-          .then(function (response) {
-            console.log(response);
-          });
+        await axios.put(
+          `https://cost-vue-cli-default-rtdb.firebaseio.com/payments/${data.key}.json`,
+          data
+        );
         this.$store.commit("addDataToPaymentList", data);
         this.$popUp.hidePopUp();
         this.$parent.$emit("test");
@@ -168,29 +170,7 @@ export default {
     this.category = this.finalCategory;
     this.value = this.finalValue;
   },
-
-  // created() {
-  //   if (
-  //     (!this.getValueQueryFromRoute || !this.getCategoryParamFromRoute) &&
-  //     this.$route.name !== "dashboard"
-  //   ) {
-  //     this.$router.push("/dashboard");
-  //   }
-
-  //   if (this.getCategoryParamFromRoute) {
-  //     this.category = this.getCategoryParamFromRoute;
-  //   } else {
-  //     this.category = "Food";
-  //   }
-
-  //   this.value = Number(this.getValue) || "";
-
-  //   // if (this.popSettings.item.category) {
-  //   //   this.category = this.popSettings.item.category;
-  //   // }
-  // },
 };
 </script>
 
-<style>
-</style>
+<style></style>

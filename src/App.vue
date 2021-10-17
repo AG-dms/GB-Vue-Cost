@@ -1,8 +1,14 @@
 <template>
   <v-app>
     <v-app-bar app>
-      <v-btn plain to="/dashboard"> dashboard </v-btn>
-      <v-btn plain to="/calc"> Calculator </v-btn>
+      <v-btn
+        plain
+        to="/dashboard"
+      > dashboard </v-btn>
+      <v-btn
+        plain
+        to="/calc"
+      > Calculator </v-btn>
     </v-app-bar>
 
     <v-main>
@@ -10,7 +16,11 @@
         <v-row>
           <v-col :cols="6">
             <v-expand-transition>
-              <v-card v-show="expand" height="300" width="500">
+              <v-card
+                v-show="expand"
+                height="300"
+                width="500"
+              >
                 <modal-window
                   @test="testik"
                   @changeBtn="btnChange"
@@ -33,6 +43,7 @@
                 left: `${this.popUpSettings.x - 130}px`,
               }"
             ></pop-up>
+
             <router-view
               :btn="changeBtn"
               :expandOpen="expand"
